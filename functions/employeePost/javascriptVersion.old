@@ -1,0 +1,51 @@
+import {APIGatewayEvent} from 'aws-lambda';
+
+const mysql = require('mysql')
+const pool  = mysql.createPool({
+  host            : 'localhost:3336',
+  user            : 'employees',
+  password        : 'employeespassword',
+  database        : 'employees',
+})
+
+const express = require('express')
+const serverless = require('serverless-http')
+const bodyParser = require('body-parser')
+
+const app = express()
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+
+
+export default async function (event: APIGatewayEvent): Promise<any> {
+  console.log(event);
+  return {
+	const query = `INSERT INTO pokemon_tb (first_name, last_name, \
+	city, email, state, phone, zip) VALUES ('Pete', 'Masse', 'Bozeman', \
+	'p@mail.com', 'Montana', '406', '59718')`
+
+	pool.query(query, (err, results, fields) => {
+		if (err) {
+		  const response = { data: null, message: err.message, }
+		  res.send(response)
+			console.log(err.mesage);
+		}
+    status: 200,
+    body: JSON.stringify({
+      message: 'Employees GET!',
+    })
+  }
+}
+
+ // })
+});
+
+// Handle in-valid route
+app.all('*', function(req, res) {
+  const response = { data: null, message: 'Route not found!!' }
+  res.status(400).send(response)
+})
+
+// wrap express app instance with serverless http function
+module.exports.handler = serverless(app)
